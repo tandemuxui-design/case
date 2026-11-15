@@ -178,14 +178,14 @@ a{color:inherit}
 .quiz figure img{width:100%;height:100%;object-fit:cover}
 
 /* ---------- PARENTS ---------- */
-.parents{background:#fff;border-radius:40px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:80px 0 100px}
-.parents__txt{display:flex;flex-direction:column;gap:16px}
+.parents{background:#fff;border-radius:40px;padding:48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;margin:80px 0 100px}
+.parents__txt{display:flex;flex-direction:column;gap:16px;min-width:0}
 .parents small{color:var(--main);font-weight:800;font-size:14px}
 .parents h2{margin:0;font-family:var(--disp);font-weight:700;font-size:clamp(26px,3vw,36px);line-height:1.2}
 .parents figure{margin:0;height:240px;border-radius:24px;overflow:hidden}
 .parents figure img{width:100%;height:100%;object-fit:cover}
 .facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
-.facts li{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:20px;background:var(--bg);font-size:16px;line-height:1.45;font-weight:500}
+.facts li{min-width:0;overflow-wrap:anywhere;display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:20px;background:var(--bg);font-size:16px;line-height:1.45;font-weight:500}
 .facts svg{flex:0 0 22px;margin-top:1px}
 
 /* ---------- FOOTER ---------- */
@@ -228,17 +228,26 @@ footer nav a:hover{color:var(--accent)}
   .ribbon--1{margin-top:-90px}
   .badge{width:110px;height:110px;margin-left:-55px}
   .badge b{font-size:13px}
-  .sits,.grid,.steps{grid-template-columns:1fr}
-  .shelf__row,.set,.parents{grid-template-columns:1fr}
+  .sits,.grid,.steps{grid-template-columns:minmax(0,1fr)}
+  .sit > div{min-width:0}
+  .sit h3{overflow-wrap:anywhere}
+  .step{padding:24px}
+  .shelf__row,.set,.parents{grid-template-columns:minmax(0,1fr)}
+  .parents figure{width:100%}
+  .set .btn{white-space:nowrap;font-size:15px;padding-left:20px;padding-right:20px}
   .set__box{position:relative;left:auto;top:auto;order:3;width:200px;margin:8px auto -120px;transform:rotate(11deg)}
   .quiz__tube{display:none}
   .row{grid-template-columns:48px 1fr;gap:16px}
   .row p{grid-column:1 / -1}
   .quiz,.parents{padding:32px 24px}
   .stop{padding:80px 24px}
-  .stickers{padding-left:8px}
+  .stickers{padding-left:8px;gap:10px}
+  .sticker{width:min(140px,calc((100vw - 88px)/3));height:min(140px,calc((100vw - 88px)/3));font-size:13px;padding:10px}
 }
 @media (max-width:380px){
+  footer .big{font-size:52px}
+  footer .wrap > *{min-width:0;max-width:100%}
+  .sit figure{flex-basis:84px;height:84px}
   .offer .btns .btn{font-size:15px;padding-left:14px;padding-right:14px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -356,7 +365,7 @@ footer nav a:hover{color:var(--accent)}
   </div>
   <div class="set rv">
     <div><small>первая покупка</small><h3>Набор «Три шага» в&nbsp;мини</h3><p>Пенка, крем‑гель и&nbsp;SPF на&nbsp;месяц. Попробовать рутину, не&nbsp;покупая три полноразмера.</p></div>
-    <img class="set__box" src="img/set-box.webp" alt="Коробка мини‑набора «Три шага» с тремя тюбиками" loading="lazy">
+    <img class="set__box" src="img/set-box.webp" alt="Коробка мини‑набора «Три шага» с тремя тюбиками">
     <a class="btn btn--ink" href="#shelf">Взять набор · [ЦЕНА]&nbsp;₽</a>
   </div>
 </section>
@@ -395,10 +404,10 @@ footer nav a:hover{color:var(--accent)}
       <figure><img src="img/parents.jpg" alt="Мама и дочь у зеркала в ванной" loading="lazy"></figure>
     </div>
     <ul class="facts">
-      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Состав подобран под кожу <span style="white-space:nowrap">13–19&nbsp;лет</span> [уточнить у&nbsp;технолога]</li>
-      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Без отдушек и&nbsp;без ретиноидов</li>
-      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Декларации по&nbsp;ТР&nbsp;ТС&nbsp;009/2011 [ссылка на&nbsp;документы]</li>
-      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Всего 3&nbsp;шага: меньше трат и&nbsp;меньше раздражения</li>
+      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Состав подобран под кожу <span style="white-space:nowrap">13–19&nbsp;лет</span> [уточнить у&nbsp;технолога]</span></li>
+      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Без отдушек и&nbsp;без ретиноидов</span></li>
+      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Декларации по&nbsp;ТР&nbsp;ТС&nbsp;009/2011 [ссылка на&nbsp;документы]</span></li>
+      <li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B2BD6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Всего 3&nbsp;шага: меньше трат и&nbsp;меньше раздражения</span></li>
     </ul>
   </div>
 </section>
