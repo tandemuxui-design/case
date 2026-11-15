@@ -229,6 +229,8 @@ function result(){
     ['3','var(--hot)','Вышла','SPF каждое утро, даже зимой и в пасмурную погоду. Это главный шаг.']
   ];
   if (acne===1 || acne===2) steps.push(['+','var(--accent)','Не трогай','Точечно на вылезший прыщ вечером. Не давить — так быстрее заживёт и не останется следа.']);
+  var PR={'Умыла':690,'Напоила':990,'Вышла':1190,'Не трогай':590};
+  var total = steps.reduce(function(m,x){return m+(PR[x[2]]||0);},0);
   var routine = steps.map(function(x){ return '<div class="step"><i style="background:'+x[1]+'">'+x[0]+'</i><div><b>«'+x[2]+'»</b><span>'+NB(x[3])+'</span></div></div>'; }).join('');
 
   var has = a.has || [], skip = [];
@@ -253,7 +255,7 @@ function result(){
     '<div class="type"><span class="chip chip--acc">Кожа: '+r.type[1].toLowerCase()+'</span><span class="chip">'+sens+'</span>'+(acne>=2?'<span class="chip chip--hot">Склонна к прыщам</span>':'')+'</div>'+
     '<div class="block"><h3>Твоя рутина</h3><div class="routine">'+routine+'</div></div>'+
     '<div class="block"><h3>С полки можно не\u00A0докупать</h3>'+skipHtml+'</div>'+ extra +
-    '<div class="share"><a class="btn btn--main" href="index.html#shelf">Собрать рутину · [ЦЕНА] ₽</a><button class="btn btn--ghost" id="copy" type="button">Скопировать результат</button><button class="btn btn--ghost" id="again" type="button">Пройти заново</button></div>'+
+    '<div class="share"><a class="btn btn--main" href="index.html#shelf">Собрать рутину · '+total.toLocaleString('ru-RU')+'\u00A0₽</a><button class="btn btn--ghost" id="copy" type="button">Скопировать результат</button><button class="btn btn--ghost" id="again" type="button">Пройти заново</button></div>'+
     '<div class="block"><h3>Прислать рутину и\u00A0напоминать про\u00A0SPF?</h3><form class="lead" id="lead"><label for="mail" class="sr" style="position:absolute;left:-9999px">E‑mail</label><input id="mail" type="email" placeholder="твоя почта" required><button class="btn btn--ink" type="submit">Прислать</button></form><div class="ok" id="ok"></div></div>'+
     '</div>',
   function(){
