@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тебе норм? — тест НОРМ.</title>
+<meta name="description" content="Тест на 3 минуты: тип кожи, чувствительность и рутина из трёх шагов. Плюс список того, что можно не докупать.">
+<style>
+@font-face{font-family:'Unbounded';src:url(fonts/Unbounded.ttf) format('truetype');font-weight:200 900;font-display:swap}
+@font-face{font-family:'Manrope';src:url(fonts/Manrope.ttf) format('truetype');font-weight:200 800;font-display:swap}
+:root{--main:#4B2BD6;--accent:#9BF0FF;--hot:#FF5C93;--soft:#E3DCFF;--ink:#170F3A;--bg:#F4F2FB;--ink2:#463F6B;--ondark:#DCD6F7;
+--disp:'Unbounded',system-ui,sans-serif;--body:'Manrope',system-ui,sans-serif;--ease:cubic-bezier(.2,.8,.2,1);--back:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;min-height:100vh;background:var(--main);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+a{color:inherit}
+button{font-family:var(--body)}
+.disp{font-family:var(--disp);font-weight:900;text-transform:uppercase;line-height:1.03;margin:0}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px;max-width:1100px;width:100%;margin:0 auto}
+.logo{font-family:var(--disp);font-weight:900;font-size:22px;color:#fff;text-decoration:none}
+.back,.close{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid rgba(255,255,255,.5);background:transparent;color:#fff;font-weight:800;font-size:15px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,transform .2s var(--back)}
+.back:hover,.close:hover{border-color:#fff;transform:translateY(-2px)}
+.back[hidden]{display:none}
+.progress{max-width:1100px;width:calc(100% - 48px);margin:0 auto;height:10px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}
+.progress i{display:block;height:100%;width:0;border-radius:999px;background:var(--accent);transition:width .5s var(--ease)}
+.count{max-width:1100px;width:100%;margin:10px auto 0;padding:0 24px;color:var(--ondark);font-weight:700;font-size:14px}
+
+/* stage */
+.stage{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:28px 24px 64px}
+.card{width:100%;max-width:860px;background:var(--bg);border-radius:40px;padding:48px;position:relative;animation:in .55s var(--ease) both}
+.card.out{animation:out .25s ease-in both}
+@keyframes in{from{opacity:0;transform:translateY(40px) rotate(1deg)}to{opacity:1;transform:none}}
+@keyframes out{to{opacity:0;transform:translateY(-24px)}}
+.kicker{display:inline-block;background:#fff;color:var(--main);font-weight:800;font-size:14px;padding:8px 16px;border-radius:999px}
+.q{font-size:clamp(26px,3.4vw,42px);margin:18px 0 10px}
+.hint{margin:0 0 28px;color:var(--ink2);font-size:16px;line-height:1.5}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;min-height:72px;padding:16px 18px;border-radius:22px;border:3px solid transparent;background:#fff;color:var(--ink);font-size:16px;font-weight:700;line-height:1.35;cursor:pointer;transition:transform .25s var(--back),border-color .2s,background .2s;animation:pop .45s var(--back) both}
+.opt:nth-child(2){animation-delay:.05s}.opt:nth-child(3){animation-delay:.1s}.opt:nth-child(4){animation-delay:.15s}.opt:nth-child(5){animation-delay:.2s}.opt:nth-child(6){animation-delay:.25s}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.opt:hover{transform:translateY(-3px);border-color:var(--soft)}
+.opt:focus-visible{outline:3px solid var(--main);outline-offset:2px}
+.opt[aria-pressed="true"]{border-color:var(--main);background:var(--soft)}
+.opt .dot{flex:0 0 28px;height:28px;border-radius:50%;border:3px solid var(--main);display:grid;place-items:center;transition:background .2s}
+.opt[aria-pressed="true"] .dot{background:var(--main)}
+.opt[aria-pressed="true"] .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff}
+.multi .opt .dot{border-radius:8px}
+.multi .opt[aria-pressed="true"] .dot::after{width:12px;height:7px;border-radius:0;background:none;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.opt small{display:block;font-weight:500;color:var(--ink2);font-size:14px;margin-top:2px}
+.actions{display:flex;justify-content:flex-end;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 32px;border-radius:999px;border:0;font-weight:800;font-size:17px;cursor:pointer;text-decoration:none;transition:transform .25s var(--back),box-shadow .25s,opacity .2s}
+.btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 12px 24px rgba(23,15,58,.2)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btn--accent{background:var(--accent);color:var(--ink)}
+.btn--main{background:var(--main);color:#fff}
+.btn--ink{background:var(--ink);color:var(--accent)}
+.btn--ghost{background:#fff;color:var(--ink)}
+
+/* intro */
+.intro .q{font-size:clamp(40px,6vw,76px);color:var(--main)}
+.intro ul{list-style:none;padding:0;margin:24px 0 32px;display:grid;gap:10px}
+.intro li{display:flex;gap:12px;align-items:flex-start;font-size:16px;line-height:1.5;font-weight:500}
+.intro li b{flex:0 0 32px;height:32px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-family:var(--disp);font-size:13px}
+.method{margin-top:28px;padding-top:20px;border-top:2px dashed var(--soft);font-size:13px;line-height:1.5;color:var(--ink2)}
+.sticker{position:absolute;right:28px;top:-34px;width:118px;height:118px;border-radius:50%;background:var(--hot);border:4px dashed #fff;outline:4px solid var(--hot);display:grid;place-items:center;text-align:center;font-family:var(--disp);font-weight:900;font-size:14px;line-height:1.1;text-transform:uppercase;transform:rotate(12deg);animation:wig 3s ease-in-out infinite;padding:10px}
+@keyframes wig{0%,100%{transform:rotate(12deg)}50%{transform:rotate(4deg) scale(1.05)}}
+
+/* result */
+.res .q{color:var(--main)}
+.type{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 24px}
+.chip{padding:10px 16px;border-radius:999px;font-weight:800;font-size:15px;background:#fff}
+.chip--hot{background:var(--hot)}
+.chip--acc{background:var(--accent)}
+.block{background:#fff;border-radius:28px;padding:28px;margin-top:16px;animation:in .6s var(--ease) both}
+.block:nth-of-type(2){animation-delay:.15s}.block:nth-of-type(3){animation-delay:.3s}.block:nth-of-type(4){animation-delay:.45s}
+.block h3{font-family:var(--disp);font-weight:700;font-size:18px;text-transform:uppercase;margin:0 0 16px}
+.routine{display:grid;gap:12px}
+.step{display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:center;padding:14px;border-radius:20px;background:var(--bg)}
+.step i{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-style:normal;font-family:var(--disp);font-weight:900;font-size:22px}
+.step b{display:block;font-family:var(--disp);font-weight:700;font-size:16px;text-transform:uppercase}
+.step span{display:block;font-size:14px;line-height:1.45;color:var(--ink2);margin-top:2px}
+.skip{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.skip li{display:grid;gap:4px}
+.skip .ws{justify-self:start;line-height:1.25}
+.skip .ws{font-family:var(--disp);font-weight:900;font-size:clamp(18px,2.2vw,24px);text-transform:uppercase}
+.skip .w{display:inline-block;position:relative}
+.skip .w::after{content:"";position:absolute;left:-6px;right:-6px;top:57%;height:8px;margin-top:-4px;border-radius:6px;background:var(--hot);opacity:.88;transform:scaleX(0) rotate(-2deg);transform-origin:left;animation:strike .5s var(--ease) forwards}
+.skip li:nth-child(1) .w::after{animation-delay:.5s}.skip li:nth-child(2) .w::after{animation-delay:.75s}.skip li:nth-child(3) .w::after{animation-delay:1s}.skip li:nth-child(4) .w::after{animation-delay:1.25s}.skip li:nth-child(5) .w::after{animation-delay:1.5s}.skip li:nth-child(6) .w::after{animation-delay:1.75s}
+@keyframes strike{to{transform:scaleX(1) rotate(-2deg)}}
+.skip p{margin:0;font-size:14px;line-height:1.45;color:var(--ink2)}
+.alert{background:var(--ink);color:#fff}
+.alert p{color:var(--ondark);margin:0;font-size:15px;line-height:1.55}
+.tip{margin:0;font-size:15px;line-height:1.55;color:var(--ink2)}
+.share{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.lead{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.lead input{flex:1 1 220px;min-height:56px;border-radius:999px;border:3px solid var(--soft);padding:0 22px;font-family:var(--body);font-size:16px;font-weight:600;color:var(--ink)}
+.lead input:focus{outline:none;border-color:var(--main)}
+.ok{margin-top:10px;font-weight:700;color:var(--main);min-height:1.4em}
+.fine{font-size:12px;color:var(--ink2);margin:10px 0 0}
+
+@media (max-width:640px){
+  .card{padding:28px 20px;border-radius:28px}
+  .opts{grid-template-columns:1fr}
+  .sticker{width:92px;height:92px;font-size:11px;right:14px;top:-26px}
+  .actions .btn,.share .btn{width:100%}
+  .block{padding:22px 18px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.skip .w::after{transform:scaleX(1) rotate(-2deg)}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <button class="back" id="back" type="button" hidden>← Назад</button>
+  <a class="logo" href="index.html">НОРМ.</a>
+  <a class="close" href="index.html" aria-label="Выйти из теста на главную">✕</a>
+</header>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="count" id="count" aria-live="polite"></div>
+<main class="stage"><section class="card" id="card" aria-live="polite"></section></main>
+
+<script>
+(function(){
+var NB = function(s){ return s.replace(/ —/g,' —').replace(/(^|[\s «(])(в|и|с|к|а|у|о|я|не|на|по|за|из|до|от|без|для|что|ты|мы|со|же|ли)\s/gi,'$1$2 ').replace(/(^|[\s «(])(в|и|с|к|а|у|о|я|не|на|по|за|из|до|от|без|для|что|ты|мы|со|же|ли)\s/gi,'$1$2 '); };
+
+// Questions: skin type signals (oily–dry) and sensitivity follow the two dimensions
+// of the Baumann skin type questionnaire that apply to teen skin; routine logic follows AAD/AAP teen guidance.
+var Q = [
+ {id:'feel', t:'Как ощущается кожа через час после умывания, если ничего не наносить?', h:'Самый честный способ понять тип кожи. Можно проверить завтра утром.',
+  o:[['tight','Стягивает, хочется намазаться',{d:2}],['ok','Нормально, ничего не чувствую',{n:2}],['tzone','Блестят нос и лоб, щёки норм',{c:2}],['oily','Блестит всё лицо',{o:2}]]},
+ {id:'noon', t:'Как выглядит кожа к обеду?', h:'Без тональника и пудры.',
+  o:[['flakes','Шелушится или есть сухие пятна',{d:2}],['matte','Матовая, всё спокойно',{n:2}],['tshine','Блестит только Т‑зона',{c:2}],['shine','Блестит везде, хочется промокнуть',{o:2}]]},
+ {id:'pores', t:'Поры на носу и щеках?', h:'Посмотри в зеркало на расстоянии вытянутой руки.',
+  o:[['small','Почти не видно',{d:1,n:1}],['nose','Видно на носу',{c:1}],['wide','Заметные почти везде',{o:1}]]},
+ {id:'acne', t:'Как часто вылезают прыщи?', h:'Без стеснения, у 85% подростков это бывает.',
+  o:[['rare','Почти никогда',{acne:0}],['some','Пара штук в месяц',{acne:1}],['often','Постоянно несколько',{acne:2}],['deep','Глубокие, болят и оставляют следы',{acne:3}]]},
+ {id:'react', t:'Как кожа реагирует на новое средство, ветер или мороз?', h:'Щиплет, краснеет, чешется — это и есть чувствительность.',
+  o:[['none','Никак, ей всё равно',{s:0}],['sometimes','Иногда краснеет',{s:1}],['often','Часто щиплет, краснеет или чешется',{s:2}]]},
+ {id:'shelf', t:'Сколько средств для лица ты используешь за день?', h:'Считай всё: пенки, тоники, сыворотки, кремы, маски.',
+  o:[['0','0–1'],['2','2–3'],['4','4–6'],['7','7 и больше']]},
+ {id:'has', multi:true, t:'Что из этого есть у тебя на полке?', h:'Можно выбрать несколько. Без осуждения, просто разберёмся.',
+  o:[['retinol','Ретинол или ретиноиды',null,'часто в «антивозрастных» сыворотках'],['acids','Кислоты: AHA, BHA, пилинги'],['scrub','Скраб с частицами'],['antiage','Антивозрастные кремы, пептиды, «лифтинг»'],['masks','Маски каждый день'],['none','Ничего из этого']]},
+ {id:'spf', t:'Как у тебя с SPF?', h:'Честно.',
+  o:[['daily','Каждый день'],['summer','Только летом или на море'],['never','Почти никогда']]}
+];
+
+var state = {i:-1, a:{}};
+var card = document.getElementById('card'), bar = document.getElementById('bar'), count = document.getElementById('count'), back = document.getElementById('back');
+
+function swap(html, after){
+  card.classList.add('out');
+  setTimeout(function(){ card.classList.remove('out'); card.style.animation='none'; void card.offsetWidth; card.style.animation=''; card.innerHTML = html; if(after) after(); window.scrollTo({top:0,behavior:'smooth'}); }, 220);
+}
+function setProgress(){
+  var p = state.i < 0 ? 0 : Math.min(1,(state.i)/Q.length);
+  bar.style.width = (p*100)+'%';
+  count.textContent = state.i>=0 && state.i<Q.length ? ('Вопрос '+(state.i+1)+' из '+Q.length) : '';
+  back.hidden = state.i < 0 || state.i >= Q.length;
+}
+
+function intro(){
+  state.i = -1; setProgress();
+  swap('<div class="intro"><div class="sticker" aria-hidden="true">3 минуты</div>'+
+  '<span class="kicker">тест НОРМ.</span>'+
+  '<h1 class="disp q">Тебе норм?</h1>'+
+  '<p class="hint">'+NB('8 коротких вопросов. В конце — рутина из трёх шагов под твою кожу и список того, что с полки можно спокойно не докупать.')+'</p>'+
+  '<ul><li><b>1</b><span>'+NB('Определим тип кожи: сухая, нормальная, комбинированная или жирная.')+'</span></li>'+
+  '<li><b>2</b><span>'+NB('Проверим чувствительность и прыщики.')+'</span></li>'+
+  '<li><b>3</b><span>'+NB('Разберём полку: что оставить, а что лишнее.')+'</span></li></ul>'+
+  '<button class="btn btn--main" id="go" type="button">Поехали</button>'+
+  '<p class="method">'+NB('Как устроен тест: вопросы про жирность и чувствительность опираются на две шкалы опросника Baumann (жирная — сухая, чувствительная — устойчивая), которым пользуются дерматологи. Рутину собираем по рекомендациям Американской академии дерматологии для подростков: мягкое очищение, крем без отдушек и SPF каждый день. Тест не ставит диагноз и не заменяет врача.')+'</p></div>',
+  function(){ document.getElementById('go').onclick = function(){ ask(0); }; });
+}
+
+function ask(i){
+  state.i = i; setProgress();
+  var q = Q[i], cur = state.a[q.id] || (q.multi?[]:null);
+  var opts = q.o.map(function(o){
+    var on = q.multi ? cur.indexOf(o[0])>-1 : cur===o[0];
+    return '<button type="button" class="opt" data-v="'+o[0]+'" aria-pressed="'+on+'"><span class="dot" aria-hidden="true"></span><span>'+NB(o[1])+(o[3]?'<small>'+NB(o[3])+'</small>':'')+'</span></button>';
+  }).join('');
+  swap('<span class="kicker">'+(i+1)+' / '+Q.length+'</span><h2 class="disp q">'+NB(q.t)+'</h2><p class="hint">'+NB(q.h)+'</p>'+
+    '<div class="opts'+(q.multi?' multi':'')+'" role="group" aria-label="Варианты ответа">'+opts+'</div>'+
+    (q.multi?'<div class="actions"><button class="btn btn--main" id="next" type="button" '+(cur.length?'':'disabled')+'>Дальше</button></div>':''),
+  function(){
+    card.querySelectorAll('.opt').forEach(function(b){
+      b.onclick = function(){
+        var v = b.getAttribute('data-v');
+        if (q.multi){
+          var arr = (state.a[q.id]||[]).slice();
+          if (v==='none') arr = arr.indexOf('none')>-1 ? [] : ['none'];
+          else { arr = arr.filter(function(x){return x!=='none';}); var k=arr.indexOf(v); if(k>-1) arr.splice(k,1); else arr.push(v); }
+          state.a[q.id]=arr;
+          card.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-pressed', arr.indexOf(x.getAttribute('data-v'))>-1); });
+          document.getElementById('next').disabled = !arr.length;
+        } else {
+          state.a[q.id]=v;
+          card.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-pressed', x===b); });
+          setTimeout(function(){ next(); }, 260);
+        }
+      };
+    });
+    var n = document.getElementById('next'); if (n) n.onclick = next;
+    var first = card.querySelector('.opt'); if (first) first.focus({preventScroll:true});
+  });
+}
+function next(){ if (state.i < Q.length-1) ask(state.i+1); else result(); }
+back.onclick = function(){ if (state.i>0) ask(state.i-1); else intro(); };
+
+function score(){
+  var s = {d:0,n:0,c:0,o:0,s:0,acne:0};
+  Q.forEach(function(q){ var v = state.a[q.id]; if (!v || q.multi) return; q.o.forEach(function(o){ if(o[0]===v && o[2]) for (var k in o[2]) s[k]+=o[2][k]; }); });
+  var types = [['d','Сухая'],['n','Нормальная'],['c','Комбинированная'],['o','Жирная']];
+  types.sort(function(a,b){ return s[b[0]]-s[a[0]]; });
+  return {s:s, type:types[0]};
+}
+
+function result(){
+  state.i = Q.length; setProgress(); bar.style.width='100%';
+  var r = score(), a = state.a, t = r.type[0];
+  var sens = r.s.s>=2 ? 'Чувствительная' : (r.s.s===1 ? 'Иногда реагирует' : 'Устойчивая');
+  var acne = r.s.acne;
+  var gel = {d:'Наноси утром и вечером, можно чуть больше слоя на сухие места.', n:'Тонкий слой утром и вечером.', c:'Тонкий слой: на щёки чуть больше, на Т‑зону совсем капля.', o:'Да, жирной коже он тоже нужен: тонкий слой, гелевая текстура не блестит.'}[t];
+  var foam = {d:'Вечером обязательно, утром можно просто водой.', n:'Утром и вечером, 30 секунд.', c:'Утром и вечером, 30 секунд, без скраба.', o:'Утром и вечером. Чаще не надо: пересушенная кожа жирнится сильнее.'}[t];
+  var steps = [
+    ['1','var(--soft)','Умыла',foam],
+    ['2','var(--main);color:#fff','Напоила',gel],
+    ['3','var(--hot)','Вышла','SPF каждое утро, даже зимой и в пасмурную погоду. Это главный шаг.']
+  ];
+  if (acne===1 || acne===2) steps.push(['+','var(--accent)','Не трогай','Точечно на вылезший прыщ вечером. Не давить — так быстрее заживёт и не останется следа.']);
+  var routine = steps.map(function(x){ return '<div class="step"><i style="background:'+x[1]+'">'+x[0]+'</i><div><b>«'+x[2]+'»</b><span>'+NB(x[3])+'</span></div></div>'; }).join('');
+
+  var has = a.has || [], skip = [];
+  var why = {retinol:['Ретинол','Без назначения врача подростковой коже он не нужен, а раздражение и чувствительность к солнцу даёт.'],
+    acids:['Кислоты и пилинги','Вместе с другими активами легко повреждают защитный барьер кожи.'],
+    scrub:['Скраб','Царапает кожу и может усиливать воспаления. Умываться достаточно мягко.'],
+    antiage:['Антивозрастные кремы','В твоём возрасте коже не от чего «омолаживаться». Лучший антивозрастной крем — SPF.'],
+    masks:['Маски каждый день','Раз в неделю — для удовольствия. Каждый день — лишняя нагрузка.']};
+  has.forEach(function(k){ if (why[k]) skip.push(why[k]); });
+  if (a.shelf==='4'||a.shelf==='7') skip.push([(a.shelf==='7'?'7+':'4–6')+' шагов','Слой на слое — больше шансов на раздражение. Трёх хватает.']);
+  var skipHtml = skip.length ? '<ul class="skip">'+skip.map(function(x){ return '<li><span class="ws">'+x[0].split(' ').map(function(w){return '<span class="w">'+w+'</span>';}).join(' ')+'</span><p>'+NB(x[1])+'</p></li>'; }).join('')+'</ul>'
+    : '<p class="tip">'+NB('На твоей полке нет ничего лишнего. Редкий случай, держи медаль.')+'</p>';
+
+  var extra = '';
+  if (acne===3) extra += '<div class="block alert"><h3>Это к дерматологу</h3><p>'+NB('Глубокие болезненные прыщи, которые оставляют следы, лучше показать врачу: их лечат рецептурными средствами, и чем раньше, тем меньше шансов на рубцы. Наша рутина тут — базовый уход, а не лечение.')+'</p></div>';
+  if (r.s.s>=1) extra += '<div class="block"><h3>Раз кожа реагирует</h3><p class="tip">'+NB('Каждое новое средство сначала проверяй на маленьком участке, например за ухом, пару дней. И вводи по одному, а не всё сразу.')+'</p></div>';
+  if (a.spf==='never'||a.spf==='summer') extra += '<div class="block"><h3>Главное открытие</h3><p class="tip">'+NB('SPF нужен каждый день, а не только на море. Если взять из рутины что‑то одно — бери «Вышла».')+'</p></div>';
+
+  var shareText = 'Мой тип кожи по тесту НОРМ.: '+r.type[1].toLowerCase()+', '+sens.toLowerCase()+'. Моя рутина: '+steps.map(function(x){return '«'+x[2]+'»';}).join(' + ')+'. Остальное — не надо.';
+
+  swap('<div class="res"><span class="kicker">твой результат</span><h2 class="disp q">'+(acne===3?'Норм, но есть нюанс':'Тебе норм')+'</h2>'+
+    '<div class="type"><span class="chip chip--acc">Кожа: '+r.type[1].toLowerCase()+'</span><span class="chip">'+sens+'</span>'+(acne>=2?'<span class="chip chip--hot">Склонна к прыщам</span>':'')+'</div>'+
+    '<div class="block"><h3>Твоя рутина</h3><div class="routine">'+routine+'</div></div>'+
+    '<div class="block"><h3>С полки можно не\u00A0докупать</h3>'+skipHtml+'</div>'+ extra +
+    '<div class="share"><a class="btn btn--main" href="index.html#shelf">Собрать рутину · [ЦЕНА] ₽</a><button class="btn btn--ghost" id="copy" type="button">Скопировать результат</button><button class="btn btn--ghost" id="again" type="button">Пройти заново</button></div>'+
+    '<div class="block"><h3>Прислать рутину и\u00A0напоминать про\u00A0SPF?</h3><form class="lead" id="lead"><label for="mail" class="sr" style="position:absolute;left:-9999px">E‑mail</label><input id="mail" type="email" placeholder="твоя почта" required><button class="btn btn--ink" type="submit">Прислать</button></form><div class="ok" id="ok"></div></div>'+
+    '</div>',
+  function(){
+    document.getElementById('again').onclick = function(){ state.a={}; ask(0); };
+    document.getElementById('copy').onclick = function(){ var b=this; try{ navigator.clipboard.writeText(shareText).then(function(){ b.textContent='Скопировано'; }, function(){ b.textContent='Не получилось скопировать'; }); }catch(e){ b.textContent='Не получилось скопировать'; } };
+    document.getElementById('lead').onsubmit = function(e){ e.preventDefault(); document.getElementById('ok').textContent='Готово! Рутина уже летит к тебе на почту.'; };
+  });
+}
+
+intro();
+})();
+</script>
+</body>
+</html>
