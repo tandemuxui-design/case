@@ -68,7 +68,7 @@ a{color:inherit}
 @keyframes float{0%,100%{transform:rotate(var(--r)) translateY(0)}50%{transform:rotate(calc(var(--r) + 2deg)) translateY(-12px)}}
 
 /* ---------- RIBBONS ---------- */
-.ribbon{position:relative;z-index:20;pointer-events:none;overflow:hidden}
+.ribbon{position:relative;z-index:20;pointer-events:none;overflow-x:clip;overflow-y:visible}
 .ribbon svg{display:block;width:110%;margin-left:-5%;height:auto;overflow:visible}
 .ribbon--1{margin-top:-200px}
 .ribbon .band,.ribbon .shine,.ribbon .shadow{fill:none;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s var(--ease)}
@@ -211,11 +211,20 @@ footer nav a:hover{color:var(--accent)}
 }
 @media (max-width:760px){
   .nav a:not(.logo){display:none}
-  .hero{padding-bottom:300px}
-  .offer{padding-top:48px}
+  .top{flex-wrap:nowrap;gap:8px}
+  .nav{padding:10px 18px}
+  .logo{font-size:20px}
+  .cartpill{font-size:13px;gap:8px;padding:4px 4px 4px 14px;white-space:nowrap}
+  .cart{width:36px;height:36px}
+  .cart svg{width:17px;height:17px}
+  .hero{padding-bottom:110px}
+  .offer{padding-top:212px;gap:18px}
+  .offer p{font-size:16px}
   .offer .btns .btn{width:100%}
-  .cut--1{width:118px;height:180px;left:-18px;top:auto;bottom:80px}
-  .cut--4{width:160px;height:210px;right:-14px;top:auto;bottom:70px}
+  .cut{border-width:4px;border-radius:20px}
+  .cut--1{width:92px;height:136px;left:calc(50% - 168px);top:104px;bottom:auto;--r:-11deg}
+  .cut--3{display:block;width:92px;height:136px;right:calc(50% - 168px);left:auto;top:110px;--r:12deg}
+  .cut--4{width:138px;height:176px;left:calc(50% - 69px);right:auto;top:86px;bottom:auto;--r:3deg;z-index:3}
   .ribbon--1{margin-top:-90px}
   .badge{width:110px;height:110px;margin-left:-55px}
   .badge b{font-size:13px}
@@ -228,6 +237,9 @@ footer nav a:hover{color:var(--accent)}
   .quiz,.parents{padding:32px 24px}
   .stop{padding:80px 24px}
   .stickers{padding-left:8px}
+}
+@media (max-width:380px){
+  .offer .btns .btn{font-size:15px;padding-left:14px;padding-right:14px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
